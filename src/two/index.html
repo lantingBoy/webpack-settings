@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no" />
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>中转页</title>
+</head>
+
+<body>
+  <script src="http://bxm-deeptask.oss-cn-hangzhou.aliyuncs.com/video-resource/zepto.min.js"></script>
+  <script>
+    countInfo('', 5)
+    const countInfo = (countId, modeltype) => {
+      let that = this
+      $.ajax({
+        type: 'post',
+        async: true, //是否异步
+        url: 'https://adscount.fawulu.com/award/countInfo',
+        data: {
+          appkey: 'fbca14bb5bb74d5a9b5fa165ad78a15a',
+          uid: `${localStorage.getItem('token')}:${that.taskId}`,
+          business: 'money-7',
+          appos: 2,
+          spm: new Date().getTime(),
+          activityid: that.appDetail.activityid,
+          modeltype: modeltype,
+          preid: that.appDetail.preid,
+          awardtype: 2,
+          assetsId: that.appDetail.assetsId,
+          countId: countId
+        },
+        success: res => {
+          that.countId = res.data
+          if (modeltype === 5) {
+            countInfo(res.data, 6)
+            text = `(activity:${
+     that.appDetail.channel
+     }_15500150020_15_0)(split)bxm_id=${
+     that.countId
+     }(split)a_oId=(split)hd_ad_click=(split)mob_cid=(and)plid=(split)dkey=(split)bc_tag=`
+          }
+          if (modeltype === 7) {
+            window.location.href = 'https://apps.apple.com/cn/app/id1318112766'
+          }
+        }
+      })
+    }
+  </script>
+</body>
+
+</html>

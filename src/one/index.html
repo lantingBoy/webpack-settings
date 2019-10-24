@@ -1,0 +1,387 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no" />
+  <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+  <title>集碎片拿大奖</title>
+  <link rel="stylesheet" href="./static/style/swiper.min.css" />
+  <link rel="stylesheet" href="./static/style/common_mobile.css">
+  <link rel="stylesheet" href="./static/style/steps.min.css" />
+  <link rel="stylesheet" href="./static/style/bootstrap.min.css" />
+  <link rel="stylesheet" href="./static/style/index.css" />
+  <link rel="stylesheet"
+    href="https://dev-test-space.oss-cn-hangzhou.aliyuncs.com/dist01/IATest/videojs/static/video-sdk.css" />
+  <!-- 移动端适配 -->
+  <script>
+    var html = document.querySelector("html");
+    changeRem();
+    window.addEventListener("resize", changeRem)
+
+    function changeRem() {
+      var width = html.getBoundingClientRect().width;
+      html.style.fontSize = width / 10 + "px";
+    }
+  </script>
+  <!--  <script src="https://cdn.bootcss.com/vConsole/3.2.0/vconsole.min.js"></script>
+    <script>
+      var vconsole = new VConsole()
+    </script> -->
+</head>
+
+<body>
+  <div id="wrap">
+    <!-- 滚动 -->
+    <div class="header">
+      <img src="./static/imgs/header.png" width="100%" style="display:block" />
+      <img src="./static/imgs/rule_bar.png" width="12%" class="rule-bar" />
+      <img src="./static/imgs/award.png" width="12%" class="award" />
+      <img src="./static/imgs/big.png" class="power power-bottle swing" />
+      <div class="swiper-container slider">
+        <div class="swiper-wrapper"></div>
+      </div>
+      <!-- 倒计时 -->
+      <div class="timer" id="timer">
+        <span id="hours">00</span>
+        :
+        <span id="minutes">00</span>
+        :
+        <span id="seconds">00</span>
+      </div>
+    </div>
+
+    <!--星星-->
+    <div class="stars-box">
+      <span class="stars"></span>
+      <span class="stars"></span>
+      <span class="stars"></span>
+      <span class="stars"></span>
+      <span class="stars"></span>
+      <span class="stars"></span>
+      <span class="stars"></span>
+    </div>
+    <!--主体-->
+    <div>
+      <!--游戏区域-->
+      <div class="box">
+        <!--九宫格-->
+        <ul class="play">
+          <li class="cj select" id="c1">
+            <img src="./static/imgs/item1.png" width="95%" />
+          </li>
+          <li class="cj" id="c2">
+            <img src="./static/imgs/item2.png" width="95%" />
+          </li>
+          <li class="cj" id="c3">
+            <img src="./static/imgs/item3.png" width="95%" />
+          </li>
+          <li id="c8" class="cj">
+            <img src="./static/imgs/item8.png" width="95%" />
+          </li>
+          <li id="btn" class="pulse1">
+            <div>抽奖</div>
+            <div>还剩<span id="change"></span>次</div>
+            <div>
+              <img src="./static/imgs/small.png" width="13%" />
+              <span>×</span>
+              <span class="energyNum"></span>
+            </div>
+          </li>
+          <li class="cj" id="c4">
+            <img src="./static/imgs/item4.png" width="95%" />
+          </li>
+          <li class="cj" id="c7">
+            <img src="./static/imgs/item7.png" width="95%" />
+          </li>
+          <li id="c6" class="cj">
+            <img src="./static/imgs/item6.png" width="95%" />
+          </li>
+          <li class="cj" id="c5">
+            <img src="./static/imgs/item5.png" width="95%" />
+          </li>
+        </ul>
+      </div>
+    </div>
+    <!-- 步骤条 -->
+    <div class="step-wrap">
+
+      <div style="height:1.2rem;"></div>
+      <div id="steps1"></div>
+    </div>
+    <!-- 奖品进度 -->
+
+    <div class="progress-wrap">
+      <span class="p-tit">集齐碎片免费获得相应的商品</span>
+      <p>活动时间 10.01-10.07</p>
+      <div class="cell">
+        <div class="col">
+          <img src="./static/imgs/sp_01.png" />
+          <div class="flex">
+            <div class="left">获取进度</div>
+            <div class="progress">
+              <div class="progress-value">
+                <span class="pro-num1"></span>/100
+              </div>
+              <div class="progress-bar progress-bar-danger active"></div>
+            </div>
+          </div>
+        </div>
+        <div class="col">
+          <img src="./static/imgs/sp_02.png" />
+          <div class="flex">
+            <div class="left">获取进度</div>
+            <div class="progress">
+              <div class="progress-value">
+                <span class="pro-num2"></span>/49
+              </div>
+              <div class="progress-bar progress-bar-danger active"></div>
+            </div>
+          </div>
+        </div>
+        <div class="col">
+          <img src="./static/imgs/sp_03.png" />
+          <div class="flex">
+            <div class="left">获取进度</div>
+            <div class="progress">
+              <div class="progress-value">
+                <span class="pro-num3"></span>/80
+              </div>
+              <div class="progress-bar progress-bar-danger active"></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="col">
+          <img src="./static/imgs/sp_05.png" />
+          <div class="flex">
+            <div class="left">获取进度</div>
+            <div class="progress">
+              <div class="progress-value">
+                <span class="pro-num5"></span>/49
+              </div>
+              <div class="progress-bar progress-bar-danger active"></div>
+            </div>
+          </div>
+        </div>
+        <div class="col">
+          <img src="./static/imgs/sp_06.png" />
+
+          <div class="flex">
+            <div class="left">获取进度</div>
+            <div class="progress">
+              <div class="progress-value">
+                <span class="pro-num6"></span>/49
+              </div>
+              <div class="progress-bar progress-bar-danger active"></div>
+            </div>
+          </div>
+        </div>
+        <div class="col">
+          <img src="./static/imgs/sp_07.png" />
+          <div class="flex">
+            <div class="left">获取进度</div>
+            <div class="progress">
+              <div class="progress-value">
+                <span class="pro-num7"></span>/49
+              </div>
+              <div class="progress-bar progress-bar-danger  active"></div>
+            </div>
+          </div>
+        </div>
+        <div class="col">
+          <img src="./static/imgs/sp_08.png" />
+          <div class="flex">
+            <div class="left">获取进度</div>
+            <div class="progress">
+              <div class="progress-value">
+                <span class="pro-num8"></span>/49
+              </div>
+              <div class="progress-bar progress-bar-danger  active"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div style="width:100%;height:2px"></div>
+    <!--游戏规则弹窗-->
+    <div id="mask-rule">
+      <div class="box-rule">
+        <h2>活动介绍</h2>
+        <span id="close-rule"></span>
+        <div class="con">
+          <div class="text">
+            <p>活动时间：2019年10月1日起，每7天为一期活动。</p>
+            <p>玩法介绍：</p>
+            <p>
+              1.点击大转盘按钮即可参与抽奖，同一用户每天初始抽奖次数为8次。期间可通过能量瓶道具再获得6次抽奖机会。能量瓶每8小时更新一次，更新期间不可重复使用。抽奖次数仅当天有效，未使用次数不累积。
+            </p>
+            <p>2.抽奖可抽中奖品碎片或幸运礼包。用户在一期活动内成功集齐奖品碎片，即可兑换对应奖品一份。如活动到期，未成功兑换的碎片将被清空，不累积到下一期。</p>
+            <p>
+              3.活动奖品将在每期活动的第一天0点更新，包含实物奖品、现金红包、虚拟奖品、神秘礼包四种类型。
+            </p>
+            <p>
+              4.用户成功兑换奖品后，需填写姓名、联系方式等信息；工作人员将与您联系确认，请保持手机畅通。商品会在1-3个工作日内出货，如派送过程出现联系不上用户或退包情况由用户负责，奖品不会二次发出。
+            </p>
+            <p>5.如发现用户存在作弊行为，则取消用户奖励</p>
+            <p>6.本活动最终解释权归杭州变现猫网络科技有限公司所有</p>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- 获奖记录 -->
+    <div id="record">
+      <div class="box-rule box-record">
+        <h2>获奖记录</h2>
+        <span id="close-record"></span>
+        <div class="con">
+        </div>
+      </div>
+    </div>
+    <!-- 弹框 -->
+    <div class="dialog-wrap noChance">
+      <div class="dialog">
+        <div class="con">
+          <h2>次数已用完</h2>
+          <span class="close"></span>
+          <div class="num-wrap">
+            <img src="./static/imgs/nochance_power.png" />
+            <span class="num">×<span class="bottle-num energyNum"></span></span>
+          </div>
+          <div class="tips">
+            <p>使用一个能量瓶</p>
+            <p>可直接获得六次抽奖机会</p>
+          </div>
+          <img src="./static/imgs/3.png" class="get-power no_powe" />
+        </div>
+      </div>
+    </div>
+    <div class="dialog-wrap power-dialog">
+      <div class="dialog">
+        <div class="con">
+          <h2>能量瓶</h2>
+          <span class="close-power"></span>
+          <div class="num-wrap">
+            <img src="./static/imgs/nochance_power.png" />
+            <span class="num">×<span class="bottle-num energyNum"></span></span>
+          </div>
+          <div class="tips">
+            <p>使用一个能量瓶</p>
+            <p>可直接获得六次抽奖机会</p>
+          </div>
+
+          <div class="use-power">使用</div>
+        </div>
+      </div>
+    </div>
+    <!--中奖提示-->
+
+    <div class="dialog-wrap1">
+      <div class="dialog">
+        <div class="con sp-award" style="display:none">
+          <img src="./static/imgs/award-title.png" width="60%" class="award-title" />
+          <div class="bg-roate">
+
+          </div>
+          <div class="sp-wrap">
+            <img class="sp" src="./static/imgs/s_02.png" />
+            <span class="round">×<span class="round2">1</span></span>
+          </div>
+
+          <div class="sp-body">
+            <p>集齐对应碎片，可免费获得对应商品</p>
+
+            <div class="sp-con">
+              <img />
+              <p><span class="sp-num"></span>/<span class="sp-total"></span></p>
+            </div>
+          </div>
+          <div class="sp-foot">
+            <button class="sp-foot-btn left-btn">我知道了<span id="three-wrap">(<span id="three">3</span>s)</span></button>
+            <div class="relative inline btn-right-wrap">
+              <img src="./static/imgs/4.png" class="right btn-right" />
+              <img src="./static/imgs/4_bar.png" class="pulse1 ab-bar">
+            </div>
+
+          </div>
+          <span class="sp-bottom">抽奖机会剩余<span class="count"></span>次</span>
+        </div>
+        <div class="con adv" style="display:none">
+          <span class="close-power"></span>
+          <img src="./static/imgs/award-title.png" width="60%" class="award-title" />
+          <div class="adv-body">
+            <img width="85%">
+          </div>
+          <div class="sp-foot">
+            <img src="./static/imgs/8.png" class="adv-btn" width="60%" />
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- 动画弹框 -->
+    <div class="ani-dialog-wrap">
+      <div class="ani-dialog">
+        <div class="ani-con ">
+
+        </div>
+        <img src="./static/imgs/s_01_01.png" class="ani-img">
+      </div>
+    </div>
+    <div class="sp-ani-dom" style="display:none">
+      <img src="./static/imgs/common_sp.png">
+    </div>
+  </div>
+  <script src="http://bxm-deeptask.oss-cn-hangzhou.aliyuncs.com/video-resource/zepto.min.js"></script>
+  <script src="http://bxm-deeptask.oss-cn-hangzhou.aliyuncs.com/video-resource/touch.js"></script>
+  <script src="https://dev-test-space.oss-cn-hangzhou.aliyuncs.com/dist01/IATest/videojs/index.js"></script>
+  <script src="http://bxm-deeptask.oss-cn-hangzhou.aliyuncs.com/video-resource/swiper.jquery.min.js"></script>
+  <script src="./static/js/h5_game_common.js"></script>
+  <script src="./static/js/mock.js"></script>
+  <script src="./static/js/steps.min.js"></script>
+  <script src="http://bxm-deeptask.oss-cn-hangzhou.aliyuncs.com/video-resource/anime.min.js"></script>
+
+  <script>
+    $(function () {
+      var str = "",
+        len = 30,
+        list = [],
+        swiperWrap = $(".swiper-wrapper");
+
+      /* 滚动数据 */
+      new Swiper(".swiper-container", {
+        direction: "vertical",
+        speed: 700,
+        loop: true,
+        autoplay: 2000,
+        autoplayDisableOnInteraction: false,
+        observer: true,
+        observerParent: true
+      });
+      for (var i = 0; i < len; i++) {
+        list.push({
+          name: name.name(),
+          doing: name.doing(),
+          time: name.time()
+        });
+      }
+      $.each(list, function (index, item) {
+        str +=
+          '<div class="swiper-slide">' +
+          item.name +
+          ' <span class="m-l5">' +
+          item.time +
+          "</span>" +
+          item.doing +
+          "</div>";
+      });
+      swiperWrap.html(str);
+
+
+    });
+  </script>
+
+
+
+</body>
+
+</html>
