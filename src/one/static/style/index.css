@@ -7,6 +7,7 @@
   -ms-user-select: none;
   user-select: none;
   font-family: Arial, Helvetica, sans-serif;
+  touch-action: none;
 }
 
 .progress-wrap p,
@@ -102,7 +103,7 @@ body {
   transform-origin: (0, 0);
   background: url('../imgs/gold.png') no-repeat left top;
   background-size: 100% 100%;
-  margin:0 auto;
+  margin: 0 auto;
   position: relative;
 }
 
@@ -525,8 +526,8 @@ body {
   height: 4.4rem;
   margin: 0.467rem auto 0;
   text-align: center;
- background: url('../imgs/step_wrap_bg.png') no-repeat left top;
- background-size:100% 100%;
+  background: url('../imgs/step_wrap_bg.png') no-repeat left top;
+  background-size: 100% 100%;
 }
 
 .step-wrap p {
@@ -541,16 +542,18 @@ body {
 /* 碎片进度 */
 .progress-wrap {
   width: 100%;
- 
+
   margin: 0.467rem auto 1rem;
   text-align: center;
   background: #540F93;
- 
+
 }
-.p-tit{
-  color:#fff;
-  font-size:.4rem;
+
+.p-tit {
+  color: #fff;
+  font-size: .4rem;
 }
+
 .progress-wrap p {
   color: #FFFFFF;
   font-family: HYQiHeiX1;
@@ -643,11 +646,13 @@ body {
   color: #fff;
   opacity: .6
 }
+
 /* 弹框动画 */
-.ani-dialog-wrap{
+.ani-dialog-wrap {
   display: none;
 }
-.ani-dialog{
+
+.ani-dialog {
   position: fixed;
   z-index: 999;
   top: 0;
@@ -687,49 +692,51 @@ body {
   transform-origin: (0, 0);
   background: url('../imgs/gold.png') no-repeat left top;
   background-size: 100% 100%;
-  -webkit-background-size:100% 100%;
+  -webkit-background-size: 100% 100%;
   position: relative;
 
 }
-.ani-img{
+
+.ani-img {
   position: absolute;
   width: 138px;
-  height: 124px;;
-  left:50%;
-  top:50%;
-  margin-top:-62px;
-  margin-left:-69px;
+  height: 124px;
+  ;
+  left: 50%;
+  top: 50%;
+  margin-top: -62px;
+  margin-left: -69px;
   transform: translateY(0);
-  transform:scale(1);
+  transform: scale(1);
 }
-.ani-img-active{
+
+.ani-img-active {
   transition: all .35s linear 1.2s;
-  transform:scale(0) translateY(-500px)!important;
-  
+  transform: scale(0) translateY(-500px) !important;
+
 }
 
 /* 点击我知道了的动画 */
-.sp-ani-dom{
-  width:84px;
+.sp-ani-dom {
+  width: 84px;
   position: fixed;
-  left:50%;
-  margin-left:-42px;
-  top:160px;
-  z-index:999;
+  left: 50%;
+  margin-left: -42px;
+  top: 160px;
+  z-index: 999;
   /* transition: left .7s linear, top .7s ease-in; */
   opacity: 0;
-  
+
 }
 
-.sp-ani-dom img{
+.sp-ani-dom img {
   width: 100%;
 }
 
-.sp-ani-dom-active{
-  top:800px;
-  left:0;
+.sp-ani-dom-active {
+  top: 800px;
+  left: 0;
   transform: scale(0);
   opacity: 0;
-  transition: left 
-
+  transition: left
 }

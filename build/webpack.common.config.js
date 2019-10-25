@@ -4,6 +4,7 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
 const packPath = process.argv[process.argv.length - 1]
 const uglify = require('uglifyjs-webpack-plugin')
+
 module.exports = {
 
   module: {

@@ -3,10 +3,13 @@ const rm = require('rimraf');
 process.env.NODE_ENV = 'production'
 
 if (process.argv[2] === '-p') {
+  console.log("线上")
   process.env.BUILD_ENV = 'p'
 } else {
+
   process.env.BUILD_ENV = 't'
 }
+console.log(process.env.BUILD_ENV)
 const packPath = process.argv[process.argv.length - 1]
 const Webpack = require('webpack');
 const webpackConfig = require('./../build/webpack.config.prd');

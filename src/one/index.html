@@ -331,8 +331,9 @@
       <img src="./static/imgs/common_sp.png">
     </div>
   </div>
+  <script src="http://video.rwlaile.com/video-resource/axios.min.js"> </script>
+  <script src="http://video.rwlaile.com/video-resource/fastclick.min.js"></script>
   <script src="http://bxm-deeptask.oss-cn-hangzhou.aliyuncs.com/video-resource/zepto.min.js"></script>
-  <script src="http://bxm-deeptask.oss-cn-hangzhou.aliyuncs.com/video-resource/touch.js"></script>
   <script src="https://dev-test-space.oss-cn-hangzhou.aliyuncs.com/dist01/IATest/videojs/index.js"></script>
   <script src="http://bxm-deeptask.oss-cn-hangzhou.aliyuncs.com/video-resource/swiper.jquery.min.js"></script>
   <script src="./static/js/h5_game_common.js"></script>
@@ -341,6 +342,11 @@
   <script src="http://bxm-deeptask.oss-cn-hangzhou.aliyuncs.com/video-resource/anime.min.js"></script>
 
   <script>
+    if ('addEventListener' in document) {
+      document.addEventListener('DOMContentLoaded', function () {
+        FastClick.attach(document.body);
+      }, false);
+    }
     $(function () {
       var str = "",
         len = 30,
