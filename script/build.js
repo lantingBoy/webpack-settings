@@ -1,15 +1,6 @@
 const fs = require('fs');
 const rm = require('rimraf');
 
-process.env.NODE_ENV = 'production'
-
-if (process.argv[2] === 'p') {
-  aa = JSON.stringify("https://adv.api.venomlipstick.cn/")
-} else {
-  console.log("测试")
-  aa = JSON.stringify("https://t-adv.api.venomlipstick.cn/")
-}
-
 const packPath = process.argv[process.argv.length - 1]
 const Webpack = require('webpack');
 const webpackConfig = require('./../build/webpack.config.prd');

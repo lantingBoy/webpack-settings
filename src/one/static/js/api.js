@@ -1,20 +1,6 @@
-import $url from './config'
-
-let apiUrl = aa // 接口基础地址
+let apiUrl = BXM_API_URL // 接口基础地址
 console.log(apiUrl)
-/* if (process.env.NODE_ENV === 'production') {
-  console.log(process.env.NODE_ENV)
-  console.log(process.env.BUILD_ENV)
 
-  if (process.env.BUILD_ENV === 't') {
-    console.log("===测试")
-    apiUrl = $url.TEST_URL
-  } else {
-    console.log("===线上")
-    apiUrl = $url.PROD_URL
-  }
-}
- */
 class API {
   get(msg) {
     msg.type = 'GET'
