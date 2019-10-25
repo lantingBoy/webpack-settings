@@ -4,6 +4,7 @@ let apiUrl = $url.TEST_URL // 接口基础地址
 if (process.env.NODE_ENV === 'production') {
   console.log(process.env.NODE_ENV)
   console.log(process.env.BUILD_ENV)
+
   if (process.env.BUILD_ENV === 't') {
     console.log("===测试")
     apiUrl = $url.TEST_URL

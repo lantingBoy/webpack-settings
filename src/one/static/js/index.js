@@ -1,6 +1,10 @@
 import {
   getInfo,
-  getWareHouseInfo
+  getWareHouseInfo,
+  getDebrisPrizeList,
+  draw,
+  getPrizeRecordList,
+  chargeEnergy
 } from './allApi'
 var
   $item = $(".cj"),
@@ -117,7 +121,6 @@ init();
 $('.award').click(function () {
   getRecord()
   $record.show();
-
   anime({
     targets: '#record .box-record',
     scale: [
@@ -143,27 +146,20 @@ $btn.click(function () {
       lottery.circle = 0
       lottery.count--;
       $change.html(lottery.count);
-      $.ajax({
-        url: 'https://adv.api.venomlipstick.cn/debris/user/draw',
-        type: "POST",
-        data: JSON.stringify({
-          type: 1,
-          userId: $userId
-        }),
-        dataType: 'json',
-        contentType: 'application/json',
-        success: function (res) {
-          lottery.prize = res.prizeCode
-          $awardSpNum = res.prizeNum
-          $url = res.jumpUrl
-          $urlImg = res.imgUrl
-          $activeId = res.bxmId
-          $assetsId = res.assetsId
-          $preid = res.preid
-          $prizeId = res.id
-          $awardtype = res.awardtype
-        }
-      });
+      draw({
+        type: 1,
+        userId: $userId
+      }).then(res => {
+        lottery.prize = res.prizeCode
+        $awardSpNum = res.prizeNum
+        $url = res.jumpUrl
+        $urlImg = res.imgUrl
+        $activeId = res.bxmId
+        $assetsId = res.assetsId
+        $preid = res.preid
+        $prizeId = res.id
+        $awardtype = res.awardtype
+      })
       clickFn();
     } else {
       lottery.bool = true;
@@ -174,31 +170,22 @@ $btn.click(function () {
 /* 宝箱点击 */
 /* 给未来元素添加点击事件，不能直接操作该元素 */
 $(document).on('click', '.pulse', function () {
-  $.ajax({
-    url: 'https://adv.api.venomlipstick.cn/debris/user/draw',
-    type: "POST",
-    data: JSON.stringify({
-      type: 2,
-      userId: $userId,
-    }),
-    dataType: 'json',
-    contentType: 'application/json',
-    success: function (res) {
-      lottery.prize = res.prizeCode
-      $awardSpNum = res.prizeNum
-      $url = res.jumpUrl
-      $urlImg = res.imgUrl
-      $activeId = res.bxmId
-      $assetsId = res.assetsId
-      $preid = res.preid
-      $prizeId = res.id
-      $awardtype = res.awardtype
-      win(res.prizeCode, lottery.count, $awardSpNum);
-      getLotteryInfo()
-    }
-
+  draw({
+    type: 2,
+    userId: $userId,
+  }).then(res => {
+    lottery.prize = res.prizeCode
+    $awardSpNum = res.prizeNum
+    $url = res.jumpUrl
+    $urlImg = res.imgUrl
+    $activeId = res.bxmId
+    $assetsId = res.assetsId
+    $preid = res.preid
+    $prizeId = res.id
+    $awardtype = res.awardtype
+    win(res.prizeCode, lottery.count, $awardSpNum);
+    getLotteryInfo()
   })
-
 })
 // 关闭没有抽奖机会的弹框
 $('.close').click(function () {
@@ -291,9 +278,7 @@ function countDown() {
   flag = false
   timeClock = setInterval(function () {
     timer_num--;
-
     $("#three").html(timer_num);
-
     flag = false
     if (timer_num == 0) {
       clearInterval(timeClock);
@@ -329,12 +314,6 @@ $('.adv-btn').click(function () {
   window.location.href = $url
   bxm_point("advert-activity-debris", "advertPlay", "广告券播放", $userId)
 })
-
-
-// 显示出视频
-function bxmsdk_showVideo() {
-  $bxmVideo.showAd()
-}
 // 判断本地是否有视频
 function bxmsdk_haveVideo() {
   $bxmVideo.haveVideo()
@@ -366,23 +345,20 @@ function win(prize, count, spNum) {
       $('.sp-total').text(49)
     }
     $('.sp-bottom .count').html(count)
-
   }
   $dialog1.show();
-  /*  $dialogCon.addClass("scale"); */
   anime({
     targets: '.dialog-wrap1 .con',
     scale: [
       0, 1
     ]
   });
-
 }
 // 获取碎片信息
 function getSpInfo() {
-  $.get('https://adv.api.venomlipstick.cn/debris/user/getDebrisPrizeList', {
+  getDebrisPrizeList({
     userId: $userId,
-  }, function (data) {
+  }).then(data => {
     var res = data;
     for (var i = 0; i < res.length; i++) {
       var code = parseInt(res[i].prizeCode)
@@ -391,7 +367,6 @@ function getSpInfo() {
         if (code === 1) {
           $('.pro-num1').parent().siblings('.progress-bar').css('width', '' + res[i].prizeNum + '%')
         } else if (code === 3) {
-
           $('.pro-num3').parent().siblings('.progress-bar').css('width', '' + (res[i].prizeNum * 100 / 80) + '%')
         } else {
           $('.pro-num' + code + '').parent().siblings('.progress-bar').css('width', '' + (res[i].prizeNum * 100 / 49) + '%')
@@ -429,14 +404,12 @@ function getLotteryInfo() {
       clearInterval(timer1)
       leftTimer(parseInt(leftTime) / 1000)
     }
-
     if ($first === 1) {
       obj1 = {
         title: '<img src="./static/imgs/open_01.png" width="70%" class="pulse">',
         description: "今日首抽",
       }
       initNum++
-
     } else if ($first === 0) {
       obj1 = {
         title: '<img src="./static/imgs/no_01.png" width="90%">',
@@ -528,139 +501,13 @@ function getLotteryInfo() {
     stepList.push(obj5)
     setSteps(stepList, initNum)
   })
-  /*  $.get('https://adv.api.venomlipstick.cn/debris/user/getWareHouseInfo', {
-     type: 2,
-     userId: $userId,
-
-   }, function (res) {
-     stepList = []
-     initNum = -1 // 每次进来初始化数据
-     $bottleNum = res.energyNum
-     lottery.count = res.drawNum
-     $first = res.first
-     $seven = res.seven
-     $thirteen = res.thirteen
-     $twenty = res.twenty
-     $forty = res.forty
-     $change.html(lottery.count)
-     $('.round2').text(1)
-     $('.energyNum').text($bottleNum)
-     var leftTime = res.leftTime
-     // 三个就不显示倒计时   
-     if (leftTime == "0") {
-       clearInterval(timer1)
-       $('#timer').hide()
-     } else {
-       $('.timer').show()
-       clearInterval(timer1)
-       leftTimer(parseInt(leftTime) / 1000)
-     }
-
-     if ($first === 1) {
-       obj1 = {
-         title: '<img src="./static/imgs/open_01.png" width="70%" class="pulse">',
-         description: "今日首抽",
-       }
-       initNum++
-
-     } else if ($first === 0) {
-       obj1 = {
-         title: '<img src="./static/imgs/no_01.png" width="90%">',
-         description: "今日首抽",
-       }
-     } else {
-       obj1 = {
-         title: '<img src="./static/imgs/finish_01.png" width="90%">',
-         description: "今日首抽",
-       }
-       initNum++
-     }
-     if ($seven === 1) {
-       obj2 = {
-         title: '<img src="./static/imgs/open_02.png" width="70%" class="pulse">',
-         description: "7次",
-       }
-       initNum++
-     } else if ($seven === 0) {
-       obj2 = {
-         title: '<img src="./static/imgs/no_02.png" width="90%">',
-         description: "7次",
-       }
-     } else {
-       obj2 = {
-         title: '<img src="./static/imgs/finish_02.png" width="90%">',
-         description: "7次",
-       }
-       initNum++
-     }
-     if ($thirteen === 1) {
-       obj3 = {
-         title: '<img src="./static/imgs/open_03.png" width="70%" class="pulse">',
-         description: "13次",
-       }
-       initNum++
-     } else if ($thirteen === 0) {
-       obj3 = {
-         title: '<img src="./static/imgs/no_03.png" width="90%">',
-         description: "13次",
-       }
-     } else {
-       obj3 = {
-         title: '<img src="./static/imgs/finish_03.png" width="90%">',
-         description: "13次",
-       }
-       initNum++
-     }
-     if ($twenty === 1) {
-       obj4 = {
-         title: '<img src="./static/imgs/open_04.png" width="70%" class="pulse">',
-         description: "20次",
-       }
-       initNum++
-     } else if ($twenty === 0) {
-       obj4 = {
-         title: '<img src="./static/imgs/no_04.png" width="90%">',
-         description: "20次",
-       }
-     } else {
-       obj4 = {
-         title: '<img src="./static/imgs/finish_04.png" width="90%">',
-         description: "20次",
-       }
-       initNum++
-     }
-     if ($forty === 1) {
-       obj5 = {
-         title: '<img src="./static/imgs/open_05.png" width="70%" class="pulse">',
-         description: "40次",
-       }
-       initNum++
-     } else if ($forty === 0) {
-       obj5 = {
-         title: '<img src="./static/imgs/no_05.png" width="90%">',
-         description: "40次",
-       }
-     } else {
-       obj5 = {
-         title: '<img src="./static/imgs/finish_05.png" width="90%">',
-         description: "40次",
-       }
-       initNum++
-     }
-     stepList.push(obj1)
-     stepList.push(obj2)
-     stepList.push(obj3)
-     stepList.push(obj4)
-     stepList.push(obj5)
-     setSteps(stepList, initNum)
-   }) */
 
 }
 /* 获取中奖纪录接口 */
 function getRecord() {
-  $.get('https://adv.api.venomlipstick.cn/debris/user/getPrizeRecordList', {
+  getPrizeRecordList({
     userId: $userId
-  }, function (res) {
+  }).then(res => {
     var list = res
     $('#record .box-rule').removeClass('norecord')
     if (list.length) {
@@ -676,6 +523,7 @@ function getRecord() {
       $('#record .con').html('暂无记录~')
     }
   })
+
 }
 
 function clickFn() {
@@ -711,81 +559,60 @@ function init() {
 }
 // 能量瓶兑换抽奖次数
 function getchargeEnergy() {
-  $.ajax({
-    url: 'https://adv.api.venomlipstick.cn/debris/user/chargeEnergy',
-    type: "POST",
-    data: JSON.stringify({
-      userId: $userId,
-    }),
-    dataType: 'json',
-    contentType: 'application/json',
-    success: function (res) {
-      if (res.result == "success") {
-        /* 获取用户能量瓶 和抽奖次数 宝箱状态*/
-        getLotteryInfo()
-        $('.dialog-wrap').hide()
-      }
-    },
-    error: function (err) {
-      message('今日兑换已达到上限', 1500)
+  chargeEnergy({
+    userId: $userId,
+  }).then(res => {
+    if (res.result == "success") {
+      /* 获取用户能量瓶 和抽奖次数 宝箱状态*/
+      getLotteryInfo()
       $('.dialog-wrap').hide()
     }
-  });
+  }).catch(err => {
+    message('今日兑换已达到上限', 1500)
+    $('.dialog-wrap').hide()
+  })
 }
 // 看视频领能量瓶
 function getWatchAdEbergy() {
-  $.ajax({
-    url: 'https://adv.api.venomlipstick.cn/debris/user/watchAdEnergy',
-    type: "POST",
-    data: JSON.stringify({
-      userId: $userId,
-    }),
-    dataType: 'json',
-    contentType: 'application/json',
-    success: function (res) {
-      /* 获取用户能量瓶 和抽奖次数 宝箱状态*/
-      getLotteryInfo()
-      $('.noChance').hide()
-      $('.power-dialog').show()
-    }
-  });
+  watchAdEnergy({
+    userId: $userId,
+  }).then(res => {
+    /* 获取用户能量瓶 和抽奖次数 宝箱状态*/
+    getLotteryInfo()
+    $('.noChance').hide()
+    $('.power-dialog').show()
+  })
+
 }
 // 看视频领取双倍奖励
 function getDouble() {
-  $.ajax({
-    url: 'https://adv.api.venomlipstick.cn/debris/user/watchAd',
-    type: "POST",
-    data: JSON.stringify({
-      userId: $userId,
-      id: $prizeId
-    }),
-    dataType: 'json',
-    contentType: 'application/json',
-    success: function (res) {
-      /* 获取用户能量瓶 和抽奖次数 宝箱状态*/
-      anime({
-        targets: ['.ani-img'],
-        delay: 1200,
-        duration: 400,
-        translateY: -150,
-        scale: [
-          1, 0
-        ],
-        easing: 'linear'
-      });
-      setTimeout(() => {
-        $('.ani-con').hide()
-      }, 1200);
-      setTimeout(() => {
-        $('.round2').text(2)
-        $('.sp-num').text(res.prizeNum)
-        $('.ani-dialog-wrap').hide()
-      }, 1650);
-      //$('.sp-num').text()
-      getSpInfo()
+  watchAd({
+    userId: $userId,
+    id: $prizeId
+  }).then(res => {
+    /* 获取用户能量瓶 和抽奖次数 宝箱状态*/
+    anime({
+      targets: ['.ani-img'],
+      delay: 1200,
+      duration: 400,
+      translateY: -150,
+      scale: [
+        1, 0
+      ],
+      easing: 'linear'
+    });
+    setTimeout(() => {
+      $('.ani-con').hide()
+    }, 1200);
+    setTimeout(() => {
+      $('.round2').text(2)
+      $('.sp-num').text(res.prizeNum)
+      $('.ani-dialog-wrap').hide()
+    }, 1650);
+    //$('.sp-num').text()
+    getSpInfo()
+  })
 
-    }
-  });
 }
 // 激活
 function active() {
@@ -803,15 +630,11 @@ function active() {
 function leftTimer(timestamp) {
   timer1 = setInterval(function () {
     transTime(timestamp);
-
     if (parseInt(timestamp) <= 0) {
-
       clearInterval(timer1)
       getLotteryInfo()
     }
     timestamp = timestamp - 1;
-
-
   }, 1000);
 }
 //埋点
@@ -832,7 +655,7 @@ function bxm_point(name, key, description, uid) {
     }
   });
 }
-// 
+
 md(3, '首页');
 
 function md(type, name) {
@@ -849,12 +672,8 @@ function md(type, name) {
       modeltype: type,
       modelname: name,
       random3: '360,640'
-
     },
-
     contentType: 'application/x-www-form-urlencoded',
-    success: function (res) {
-
-    }
+    success: function (res) {}
   });
 }

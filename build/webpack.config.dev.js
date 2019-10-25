@@ -4,7 +4,7 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 const packPath = process.argv[process.argv.length - 1]
 const merge = require("webpack-merge");
 const webpackConfigCommon = require('./webpack.common.config');
-import config from '../config'
+
 const webpackConfigDev = {
   entry: `./src/${packPath}/index.js`,
   output: {
