@@ -6,8 +6,8 @@
   "scripts": {
     "build": "node script/build.js",
     "start": "node script/start.js",
-    "build:p": "node script/build.js -p",
-    "build:t": "node script/build.js -t",
+    "build:p": "node script/build.js p",
+    "build:t": "node script/build.js t",
     "dev": "cross-env BABEL_ENV=development webpack-dev-server --inline --progress --config script/start.js"
   },
   "author": "",

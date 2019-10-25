@@ -1,7 +1,8 @@
 import $url from './config'
 
-let apiUrl = $url.TEST_URL // 接口基础地址
-if (process.env.NODE_ENV === 'production') {
+let apiUrl = aa // 接口基础地址
+console.log(apiUrl)
+/* if (process.env.NODE_ENV === 'production') {
   console.log(process.env.NODE_ENV)
   console.log(process.env.BUILD_ENV)
 
@@ -13,7 +14,7 @@ if (process.env.NODE_ENV === 'production') {
     apiUrl = $url.PROD_URL
   }
 }
-
+ */
 class API {
   get(msg) {
     msg.type = 'GET'

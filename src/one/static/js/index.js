@@ -6,6 +6,8 @@ import {
   getPrizeRecordList,
   chargeEnergy
 } from './allApi'
+
+
 var
   $item = $(".cj"),
   $change = $("#change"), //显示剩余机会
@@ -70,8 +72,6 @@ for (const key in params) {
   paramsStr += `${paramsStr.indexOf('?') >= 0 ? '&' : '?'}${key}=${encodeURI(params[key])}`;
 }
 img.src = `${path}${paramsStr}`;
-
-
 $bxmVideo = new BxmJsVideoSdk({
   onload: function () {
     $bxmVideo.showAd()

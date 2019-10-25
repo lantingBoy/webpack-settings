@@ -5,6 +5,8 @@ const CopyWebpackPlugin = require('copy-webpack-plugin');
 const packPath = process.argv[process.argv.length - 1]
 const uglify = require('uglifyjs-webpack-plugin')
 
+const webpack = require('webpack')
+
 module.exports = {
 
   module: {
@@ -21,13 +23,18 @@ module.exports = {
         to: './static',
         ignore: ['.*']
       },
+
       {
         from: `./common`,
         to: './static',
         ignore: ['.*']
       }
-    ])
+    ]),
+    new webpack.DefinePlugin({
+      aa: JSON.stringify('https://t-adv.api.venomlipstick.cn/')
+    }),
   ],
+
   resolve: {
     alias: {
       'style': path.resolve('style')

@@ -3,13 +3,13 @@ const rm = require('rimraf');
 
 process.env.NODE_ENV = 'production'
 
-if (process.argv[2] === '-p') {
-  console.log("线上")
-  process.env.BUILD_ENV = 'p'
+if (process.argv[2] === 'p') {
+  aa = JSON.stringify("https://adv.api.venomlipstick.cn/")
 } else {
-  process.env.BUILD_ENV = 't'
+  console.log("测试")
+  aa = JSON.stringify("https://t-adv.api.venomlipstick.cn/")
 }
-console.log(process.env.BUILD_ENV)
+
 const packPath = process.argv[process.argv.length - 1]
 const Webpack = require('webpack');
 const webpackConfig = require('./../build/webpack.config.prd');
